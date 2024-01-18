@@ -23,17 +23,17 @@ class ApiProvider with ChangeNotifier {
       status: int.parse(statusController.text),
       mTestId: null,
     );
-
+    var bodyy = jsonEncode(userdata);
     var response = await http.post(
       Uri.parse(apiUrl),
-      body: jsonEncode(userdata.toJson()),
+      body: bodyy,
       headers: {'Content-Type': 'application/json'},
     );
-    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       print('successfully posted');
-      var json = jsonDecode(response.body);
+      var dataa = jsonDecode(response.body);
+      print('Response body: $dataa');
     } else {}
   }
 }
