@@ -31,23 +31,4 @@ class ProviderService {
       return [];
     }
   }
-
-  Future<String?> postMethod(String body) async {
-    try {
-      final response = await http.post(
-        Uri.parse(baseUrl),
-        body: json.decode(body),
-      );
-
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        print('Failed to post data. Status code: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error posting data: $e');
-      return null;
-    }
-  }
 }
