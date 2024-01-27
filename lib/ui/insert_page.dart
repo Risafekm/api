@@ -12,7 +12,7 @@ class InsertPage extends StatefulWidget {
 class _InsertPageState extends State<InsertPage> {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ApiProvider>(context, listen: false);
+    var provider = Provider.of<PostProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Adding'),
@@ -60,6 +60,25 @@ class _InsertPageState extends State<InsertPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              controller: provider.mtestPointsController,
+              decoration: InputDecoration(
+                hintText: 'mtestPoints',
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.blue,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
               controller: provider.statusController,
               decoration: InputDecoration(
                 hintText: 'status',
@@ -78,7 +97,8 @@ class _InsertPageState extends State<InsertPage> {
           const SizedBox(height: 35),
           ElevatedButton(
               onPressed: () {
-                Provider.of<ApiProvider>(context, listen: false).addUser();
+                Provider.of<PostProvider>(context, listen: false).addUser();
+                Navigator.pop(context);
               },
               child: const Text('add')),
         ],

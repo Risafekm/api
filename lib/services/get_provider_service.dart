@@ -3,12 +3,11 @@ import 'package:api/model/test_model.dart';
 import 'package:http/http.dart' as http;
 
 class ProviderService {
-  static const baseUrl =
-      'http://localhost/php-prac/edu_module_tests.php?modId=2';
+  static const url = 'http://localhost/radiant/read.php';
 
   Future<List<Tests>> getAll() async {
     try {
-      final response = await http.get(Uri.parse(baseUrl));
+      final response = await http.get(Uri.parse(url));
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
