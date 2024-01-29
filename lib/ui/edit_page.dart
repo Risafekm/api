@@ -1,30 +1,34 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:api/model/test_model.dart';
 import 'package:api/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class InsertPage extends StatefulWidget {
-  const InsertPage({
-    super.key,
-  });
+class EditPage extends StatefulWidget {
+  EditPage({super.key, required this.user});
+
+  Tests user;
 
   @override
-  State<InsertPage> createState() => _InsertPageState();
+  State<EditPage> createState() => _EditPageState();
 }
 
-class _InsertPageState extends State<InsertPage> {
+class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<UserProvider>(context, listen: false);
+    var provider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adding'),
+        title: const Text('Editing'),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              controller: provider.modIdController,
+              controller: provider.editmodIdController,
               decoration: InputDecoration(
                 hintText: 'modnum',
                 focusedBorder: OutlineInputBorder(
@@ -43,7 +47,7 @@ class _InsertPageState extends State<InsertPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              controller: provider.userIdController,
+              controller: provider.edituserIdController,
               decoration: InputDecoration(
                 hintText: 'userId',
                 focusedBorder: OutlineInputBorder(
@@ -62,7 +66,7 @@ class _InsertPageState extends State<InsertPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              controller: provider.mtestPointsController,
+              controller: provider.editmtestPointsController,
               decoration: InputDecoration(
                 hintText: 'mtestPoints',
                 focusedBorder: OutlineInputBorder(
@@ -81,7 +85,7 @@ class _InsertPageState extends State<InsertPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              controller: provider.statusController,
+              controller: provider.editstatusController,
               decoration: InputDecoration(
                 hintText: 'status',
                 focusedBorder: OutlineInputBorder(
@@ -98,11 +102,11 @@ class _InsertPageState extends State<InsertPage> {
           ),
           const SizedBox(height: 35),
           ElevatedButton(
-              onPressed: () {
-                Provider.of<UserProvider>(context, listen: false).addData();
+              onPressed: () async {
+                provider.updateData(widget.user.mTestId!);
                 Navigator.pop(context);
               },
-              child: const Text('add')),
+              child: const Text('Update')),
         ],
       ),
     );

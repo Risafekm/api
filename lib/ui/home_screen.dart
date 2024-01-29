@@ -1,4 +1,5 @@
-import 'package:api/provider/get_provider.dart';
+import 'package:api/provider/user_provider.dart';
+import 'package:api/ui/edit_page.dart';
 import 'package:api/ui/insert_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,19 +17,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ProviderOperation>(context, listen: false).getAllPosts();
+      Provider.of<UserProvider>(context, listen: false).getData();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Consumer<ProviderOperation>(builder: (context, value, child) {
+      body: Consumer<UserProvider>(builder: (context, value, child) {
         if (value.isLoding) {
           return const CircularProgressIndicator();
         }
@@ -36,8 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
         return ListView.builder(
           itemCount: posts.length,
           itemBuilder: (context, index) {
+            var user = posts[index];
             return Card(
                 child: ListTile(
+              onTap: () async {
+                controller.editmodIdController.text = user.modNum.toString();
+                controller.edituserIdController.text = user.userId.toString();
+                controller.editmtestPointsController.text =
+                    user.mTestPoints.toString();
+                controller.editstatusController.text = user.status.toString();
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditPage(user: user)));
+              },
               leading: Text(posts[index].mTestId.toString()),
               tileColor: Colors.blue.withOpacity(0.2),
               title: Text(
