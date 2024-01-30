@@ -60,10 +60,16 @@ class _MyHomePageState extends State<MyHomePage> {
               subtitle: Column(
                 children: [
                   Text(posts[index].modNum.toString()),
-                  // Text(posts[index].mtest_points.toString()),
-                  Text(posts[index].status.toString()),
+                  Text(posts[index].mTestPoints.toString()),
+                  // Text(posts[index].status.toString()),
                 ],
               ),
+              trailing: GestureDetector(
+                  onTap: () async {
+                    controller.deleteData(user.mTestId.toString());
+                    print('clicked');
+                  },
+                  child: const Icon(Icons.delete, color: Colors.red)),
             ));
           },
         );

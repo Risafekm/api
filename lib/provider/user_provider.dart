@@ -79,7 +79,8 @@ class UserProvider extends ChangeNotifier {
   //update data
 
   updateData(int i) async {
-    String updateUrl = 'http://localhost/radiant/update.php?mtest_id=$i';
+    Uri updateUrl =
+        Uri.parse('http://localhost/radiant/update.php?mtest_id=$i');
     var data = Tests(
       mTestId: i,
       modNum: int.parse(editmodIdController.text),
@@ -90,7 +91,7 @@ class UserProvider extends ChangeNotifier {
 
     try {
       var response = await http.put(
-        Uri.parse(updateUrl),
+        updateUrl,
         body: jsonEncode(data.toJson()),
         headers: {'Content-Type': 'application/json'},
       );
@@ -98,30 +99,25 @@ class UserProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         await getData();
         print(" update success ${response.body}");
-        notifyListeners();
       }
     } catch (e) {
-      print('Error ${e.toString()}');
+      print('Error updated failed: ${e.toString()}');
     }
     notifyListeners();
   }
 
-  // void updateData(int mTestId) {
-  //   // Find the test with the specified mTestId
-  //   Tests? test = _posts.firstWhere((test) => test.mTestId == mTestId);
+  //delete
 
-  //   if (test != null) {
-  //     // Update the properties of the test
-  //     test.modNum = int.tryParse(editmodIdController.text) ?? test.modNum;
-  //     test.userId = int.tryParse(edituserIdController.text) ?? test.userId;
-  //     test.mTestPoints =
-  //         int.tryParse(editmtestPointsController.text) ?? test.mTestPoints;
-  //     test.status = int.tryParse(editstatusController.text) ?? test.status;
+  deleteData(String i) async {
+    Uri deleteUrl =
+        Uri.parse('http://localhost/radiant/delete.php?mtest_id=$i');
 
-  //     // Notify listeners to update the UI
-  //     notifyListeners();
-  //   }
-  // }
+    var response = await http.delete(deleteUrl);
+    if (response.statusCode == 200) {
+      getData();
+      print('Successfully deleted');
+    }
+  }
 
   clear() {
     modIdController.clear();
