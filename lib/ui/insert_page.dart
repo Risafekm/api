@@ -99,7 +99,9 @@ class _InsertPageState extends State<InsertPage> {
           const SizedBox(height: 35),
           ElevatedButton(
               onPressed: () {
-                Provider.of<UserProvider>(context, listen: false).addData();
+                Provider.of<UserProvider>(context, listen: false)
+                    .addData(context);
+
                 Navigator.pop(context);
               },
               child: const Text('add')),

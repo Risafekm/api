@@ -25,7 +25,7 @@ class UserProvider extends ChangeNotifier {
 
 //post Data
 
-  addData() async {
+  addData(context) async {
     String apiUrl = 'http://localhost/radiant/create.php';
     var userdata = Tests(
       modNum: int.parse(modIdController.text),
@@ -45,6 +45,7 @@ class UserProvider extends ChangeNotifier {
       if (response.statusCode == 201) {
         print('successfully posted');
         var dataa = jsonDecode(response.body);
+        snackbar(context);
         await getData();
         print('Response body: $dataa');
         notifyListeners();
@@ -108,13 +109,15 @@ class UserProvider extends ChangeNotifier {
 
   //delete
 
-  deleteData(String i) async {
+  deleteData(String i, context) async {
     Uri deleteUrl =
         Uri.parse('http://localhost/radiant/delete.php?mtest_id=$i');
 
     var response = await http.delete(deleteUrl);
     if (response.statusCode == 200) {
+      snackbar(context);
       getData();
+
       print('Successfully deleted');
     }
   }
@@ -124,5 +127,23 @@ class UserProvider extends ChangeNotifier {
     userIdController.clear();
     statusController.clear();
     mtestPointsController.clear();
+  }
+  //snackBar
+
+  snackbar(context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.blue,
+        content: Row(
+          children: [
+            Expanded(child: Text('Deleted Successfully')),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.done, color: Colors.green),
+          ],
+        ),
+      ),
+    );
   }
 }

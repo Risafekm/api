@@ -66,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               trailing: GestureDetector(
                   onTap: () async {
-                    controller.deleteData(user.mTestId.toString());
+                    controller.deleteData(user.mTestId.toString(), context);
+
                     print('clicked');
                   },
                   child: const Icon(Icons.delete, color: Colors.red)),
@@ -81,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
